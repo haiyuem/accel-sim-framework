@@ -226,6 +226,13 @@ def dir_option_test(name, default, this_directory):
 def parse_run_simulations_options():
     parser = OptionParser()
     parser.add_option(
+        "-f",
+        "--config_file_override",
+        dest="config_file_override",
+        help="Override the config file path used in the simulation.",
+        default=None,
+    )
+    parser.add_option(
         "-B",
         "--benchmark_list",
         dest="benchmark_list",

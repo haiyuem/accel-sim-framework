@@ -844,6 +844,29 @@ cutlass:
             # - args: --seed=2020 --dist=0 --operation=gemm --m=4096 --n=4096 --k=4096 --op_class=tensorop --iterations=5 --provider=cutlass
             #   accel-sim-mem: 13G
 
+#cutlass 47 basic gemm
+basic_gemm:
+    exec_dir: "$GPUAPPS_ROOT/bin/$CUDA_VERSION/release/"
+    data_dirs: "$GPUAPPS_ROOT/data_dirs/"
+    execs:
+        - basic_gemm:
+            - args:
+              accel-sim-mem: 13G
+
+gemm_streamk:
+    exec_dir: "$GPUAPPS_ROOT/bin/$CUDA_VERSION/release/"
+    data_dirs: "$GPUAPPS_ROOT/data_dirs/"
+    execs:
+        - gemm_streamk_128_28k_4k:
+            - args: --m=128 --n=28672 --k=4096
+              accel-sim-mem: 13G
+        - gemm_streamk_1k_12k_4k:
+            - args: --m=1024 --n=12288 --k=4096
+              accel-sim-mem: 13G
+        # - gemm_streamk_8k_512_8k:
+        #     - args: --m=8192 --n=512 --k=8192
+        #       accel-sim-mem: 13G
+
 ## Not sure how much memory the following apps take - just letting them go with the default
 
 ispass-2009:
@@ -1076,3 +1099,18 @@ vllm:
             - args: # defualt is llama-7b model , pass model name to use other models
               accel-sim-mem: 10G
 
+shoc-FFT:
+    exec_dir: "$GPUAPPS_ROOT/bin/$CUDA_VERSION/release/"
+    data_dirs: "$GPUAPPS_ROOT/data_dirs/shoc-master/"
+    execs:
+        - shoc-FFT:
+            - args: NO_ARGS
+              accel-sim-mem: 2G
+
+l2_bw_128: 
+    exec_dir: "$GPUAPPS_ROOT/bin/$CUDA_VERSION/release/"
+    data_dirs: "$GPUAPPS_ROOT/data_dirs/"
+    execs:
+        - l2_bw_128:
+            - args:
+              accel-sim-mem: 1G

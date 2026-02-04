@@ -411,10 +411,11 @@ class ConfigurationSpec:
             config_text += "\n" + "-hw_perf_bench_name " + bench_name + "\n"
 
         if options.trace_dir != "":
-            cfgsubdir = re.sub(r".*(configs.*)gpgpusim.config", r"\1", config_text_file)
+            # cfgsubdir = re.sub(r".*(configs.*)gpgpusim.config", r"\1", config_text_file)
+            cfgsubdir = re.sub(r".*(.*SM.*?)/.*", r"\1", config_text_file)
             config_text += "\n" + "# Accel-Sim Parameters" + "\n"
             accelsim_cfg = os.path.expandvars(
-                os.path.join("$ACCELSIM_ROOT", cfgsubdir, "trace.config")
+                os.path.join("$ACCELSIM_ROOT", "configs/tested-cfgs", cfgsubdir, "trace.config")
             )
             config_text += open(accelsim_cfg).read()
 
@@ -532,6 +533,8 @@ benchmarks = common.gen_apps_from_suite_list(options.benchmark_list.split(","))
 cfgs = common.gen_configs_from_list(options.configs_list.split(","))
 configurations = []
 for config in cfgs:
+    if options.config_file_override != None:
+        config = (config[0], config[1], options.config_file_override)
     configurations.append(ConfigurationSpec(config))
 
 print(
