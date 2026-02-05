@@ -189,7 +189,7 @@ Accelwattch_PTX_SIM:
 
 
 
-############## L2 cuts configs ##############
+############## individual cuts configs from start ##############
 # "l2clock": ["1410", "1234", "1058", "882", "706", "530", "354", "178"],
 l2clock_1410:
     extra_params: "-gpgpu_clock_domains 1410:1410:1410:1512"
@@ -550,3 +550,367 @@ dram_latency_1330:
     extra_params: "-dram_latency 1330"
 dram_latency_1520:
     extra_params: "-dram_latency 1520"
+
+
+
+############## individual cuts configs during execution ##############
+# "l2clock": ["1410", "1234", "1058", "882", "706", "530", "354", "178"],
+l2clock_1410_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:1512\""
+l2clock_1234_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1234:1512\""
+l2clock_1058_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1058:1512\""
+l2clock_882_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:882:1512\""
+l2clock_706_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:706:1512\""
+l2clock_530_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:530:1512\""
+l2clock_354_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:354:1512\""
+l2clock_178_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:178:1512\""
+
+# "l2mshr": ["192", "168", "144", "120", "96", "72", "48", "24"],
+l2mshr_192_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2mshr_168_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:168:4,32:0,32\""
+l2mshr_144_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:144:4,32:0,32\""
+l2mshr_120_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:120:4,32:0,32\""
+l2mshr_96_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:96:4,32:0,32\""
+l2mshr_72_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:72:4,32:0,32\""
+l2mshr_48_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:48:4,32:0,32\""
+l2mshr_24_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:24:4,32:0,32\""
+
+# "icnt_in_buffer": ["512", "448", "384", "320", "256", "192", "128", "64"],
+icnt_in_buffer_512_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/512\""
+icnt_in_buffer_448_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/448\""
+icnt_in_buffer_384_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/384\""
+icnt_in_buffer_320_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/320\""
+icnt_in_buffer_256_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/256\""
+icnt_in_buffer_192_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/192\""
+icnt_in_buffer_128_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/128\""
+icnt_in_buffer_64_dyn:
+    extra_params: "-reload_config \"icnt_in_buffer_limit\/64\""
+
+# "icnt_out_buffer": ["512", "448", "384", "320", "256", "192", "128", "64"],
+icnt_out_buffer_512_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/512\""
+icnt_out_buffer_448_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/448\""
+icnt_out_buffer_384_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/384\""
+icnt_out_buffer_320_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/320\""
+icnt_out_buffer_256_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/256\""
+icnt_out_buffer_192_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/192\""
+icnt_out_buffer_128_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/128\""
+icnt_out_buffer_64_dyn:
+    extra_params: "-reload_config \"icnt_out_buffer_limit\/64\""
+
+# "icntclock": ["1410", "1234", "1058", "882", "706", "530", "354", "178"],
+icntclock_1410_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:1512\""
+icntclock_1234_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1234:1410:1512\""
+icntclock_1058_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1058:1410:1512\""
+icntclock_882_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:882:1410:1512\""
+icntclock_706_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:706:1410:1512\""
+icntclock_530_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:530:1410:1512\""
+icntclock_354_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:354:1410:1512\""
+icntclock_178_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:178:1410:1512\""
+
+# "icnttol2": ["64", "56", "48", "40", "32", "24", "16", "8"],
+icnttol2_64_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:64\""
+icnttol2_56_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/56:64:64:64\""
+icnttol2_48_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/48:64:64:64\""
+icnttol2_40_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/40:64:64:64\""
+icnttol2_32_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/32:64:64:64\""
+icnttol2_24_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/24:64:64:64\""
+icnttol2_16_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/16:64:64:64\""
+icnttol2_8_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/8:64:64:64\""
+
+# "l2todram": ["64", "56", "48", "40", "32", "24", "16", "8"],
+l2todram_64_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:64\""
+l2todram_56_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:56:64:64\""
+l2todram_48_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:48:64:64\""
+l2todram_40_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:40:64:64\""
+l2todram_32_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:32:64:64\""
+l2todram_24_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:24:64:64\""
+l2todram_16_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:16:64:64\""
+l2todram_8_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:8:64:64\""
+
+# "dramtol2": ["64", "56", "48", "40", "32", "24", "16", "8"],
+dramtol2_64_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:64\""
+dramtol2_56_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:56:64\""
+dramtol2_48_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:48:64\""
+dramtol2_40_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:40:64\""
+dramtol2_32_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:32:64\""
+dramtol2_24_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:24:64\""
+dramtol2_16_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:16:64\""
+dramtol2_8_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:8:64\""
+
+# "l2toicnt": ["64", "56", "48", "40", "32", "24", "16", "8"],
+l2toicnt_64_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:64\""
+l2toicnt_56_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:56\""
+l2toicnt_48_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:48\""
+l2toicnt_40_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:40\""
+l2toicnt_32_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:32\""
+l2toicnt_24_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:24\""
+l2toicnt_16_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:16\""
+l2toicnt_8_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_partition_queues\/64:64:64:8\""
+
+# "l2_data_port_width": ["32", "28", "24", "20", "16", "12", "8", "4"],
+l2_data_port_width_32_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2_data_port_width_28_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,28:0,28\""
+l2_data_port_width_24_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,24:0,24\""
+l2_data_port_width_20_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,20:0,20\""
+l2_data_port_width_16_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,16:0,16\""
+l2_data_port_width_12_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,12:0,12\""
+l2_data_port_width_8_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,8:0,8\""
+l2_data_port_width_4_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,4:0,4\""
+
+# "l2_rop_latency": ["200", "400", "600", "800", "1000", "1200", "1400", "1600"],
+l2_rop_latency_200_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/200\""
+l2_rop_latency_400_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/400\""
+l2_rop_latency_600_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/600\""
+l2_rop_latency_800_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/800\""
+l2_rop_latency_1000_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/1000\""
+l2_rop_latency_1200_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/1200\""
+l2_rop_latency_1400_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/1400\""
+l2_rop_latency_1600_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/1600\""
+
+# "icnt_flit_size": ["40", "35", "30", "25", "20", "15", "10", "5"],
+icnt_flit_size_40_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/40\""
+icnt_flit_size_35_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/35\""
+icnt_flit_size_30_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/30\""
+icnt_flit_size_25_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/25\""
+icnt_flit_size_20_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/20\""
+icnt_flit_size_15_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/15\""
+icnt_flit_size_10_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/10\""
+icnt_flit_size_5_dyn:
+    extra_params: "-reload_config \"icnt_flit_size\/5\""
+
+
+# "dramclock": ["1512", "1323", "1134", "945", "756", "567", "378", "189"],
+dramclock_1512_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:1512\""
+dramclock_1323_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:1323\""
+dramclock_1134_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:1134\""
+dramclock_945_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:945\""
+dramclock_756_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:756\""
+dramclock_567_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:567\""
+dramclock_378_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:378\""
+dramclock_189_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:189\""
+
+# "l2set": ["128", "112", "96", "80", "64", "48", "32", "16"],
+l2set_128_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_112_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:112:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_96_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:96:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_80_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:80:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_64_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:64:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_48_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:48:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_32_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:32:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_16_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:16:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+
+# "l2assoc": ["16", "14", "12", "10", "8", "6", "4", "2"],
+l2assoc_16_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_14_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:14,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_12_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:12,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_10_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:10,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_8_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:8,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_6_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:6,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_4_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:4,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_2_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:2,L:B:m:L:X,A:192:4,32:0,32\""
+
+# "n_mem": ["5", "10", "15", "20", "25", "30", "35", "40"],
+n_mem_40_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/40\""
+n_mem_35_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/35\""
+n_mem_30_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/30\""
+n_mem_25_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/25\""
+n_mem_20_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/20\""
+n_mem_15_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/15\""
+n_mem_10_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/10\""
+n_mem_5_dyn:
+    extra_params: "-reload_config \"gpgpu_n_mem\/5\""
+
+# "dram_buswidth": ["16", "14", "12", "10", "8", "6", "4", "2"],
+dram_buswidth_16: 
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/16\""
+dram_buswidth_14_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/14\""
+dram_buswidth_12_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/12\""
+dram_buswidth_10_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/10\""
+dram_buswidth_8_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/8\""
+dram_buswidth_6_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/6\""
+dram_buswidth_4_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/4\""
+dram_buswidth_2_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/2\""
+
+# "dram_sched_queue": ["64", "56", "48", "40", "32", "24", "16", "8"],
+dram_sched_queue_64_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/64\""
+dram_sched_queue_56_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/56\""
+dram_sched_queue_48_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/48\""
+dram_sched_queue_40_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/40\""
+dram_sched_queue_32_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/32\""
+dram_sched_queue_24_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/24\""
+dram_sched_queue_16_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/16\""
+dram_sched_queue_8_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/8\""
+
+# "dram_return_queue": ["192", "168", "144", "120", "96", "72", "48", "24"],
+dram_return_queue_192_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/192\""
+dram_return_queue_168_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/168\""
+dram_return_queue_144_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/144\""
+dram_return_queue_120_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/120\""
+dram_return_queue_96_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/96\""
+dram_return_queue_72_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/72\""
+dram_return_queue_48_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/48\""
+dram_return_queue_24_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/24\""
+
+# "dram_latency": ["190", "380", "570", "760", "950", "1140", "1330", "1520"],
+dram_latency_190_dyn:
+    extra_params: "-reload_config \"dram_latency\/190\""
+dram_latency_380_dyn:
+    extra_params: "-reload_config \"dram_latency\/380\""
+dram_latency_570_dyn:
+    extra_params: "-reload_config \"dram_latency\/570\""
+dram_latency_760_dyn:
+    extra_params: "-reload_config \"dram_latency\/760\""
+dram_latency_950_dyn:
+    extra_params: "-reload_config \"dram_latency\/950\""
+dram_latency_1140_dyn:
+    extra_params: "-reload_config \"dram_latency\/1140\""
+dram_latency_1330_dyn:
+    extra_params: "-reload_config \"dram_latency\/1330\""
+dram_latency_1520_dyn:
+    extra_params: "-reload_config \"dram_latency\/1520\""
