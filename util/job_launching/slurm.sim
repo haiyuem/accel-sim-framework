@@ -4,7 +4,7 @@
 #SBATCH --cpus-per-task=1
 #SBATCH --nodes=1
 #SBATCH --mem-per-cpu=REPLACE_MEM_USAGE
-#SBATCH --time=8:00:00
+#SBATCH --time=REPLACE_TIME_USAGE
 #SBATCH --export=ALL
 #SBATCH --output=./REPLACE_NAME.o%j
 #SBATCH --error=./REPLACE_NAME.e%j

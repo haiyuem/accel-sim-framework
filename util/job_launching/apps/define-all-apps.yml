@@ -2,6 +2,7 @@
 #       - <exec_name_1>:
 #           - args: <commandline arg_list 1> # Leave blank if no arguments
 #             <optional> accel-sim-mem: <xG>
+#             <optional> accel-sim-time: <HH:MM:SS>
 #           - args: <commandline arg_list 2>
 #           ...
 #       - <exec_name_2>
@@ -859,14 +860,143 @@ gemm_streamk:
     execs:
         - gemm_streamk_128_28k_4k:
             - args: --m=128 --n=28672 --k=4096
-              accel-sim-mem: 13G
+              accel-sim-mem: 8G
+              accel-sim-time: "4:00:00"
         - gemm_streamk_1k_12k_4k:
             - args: --m=1024 --n=12288 --k=4096
+              accel-sim-mem: 8G
+              accel-sim-time: "4:00:00"
+        - gemm_streamk_4k_12k_4k:
+            - args: --m=4096 --n=12288 --k=4096
+              accel-sim-mem: 8G
+              accel-sim-time: "4:00:00"
+        - gemm_streamk_8k_512_8k:
+            - args: --m=8192 --n=512 --k=8192
               accel-sim-mem: 13G
-        # - gemm_streamk_8k_512_8k:
-        #     - args: --m=8192 --n=512 --k=8192
-        #       accel-sim-mem: 13G
+        - gemm_streamk_deepseek_decode_atten_out:
+            - args: --m=128 --n=7168 --k=7168
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_deepseek_decode_ffn_down:
+            - args: --m=128 --n=7168 --k=18432
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_deepseek_decode_ffn_up:
+            - args: --m=128 --n=36864 --k=7168
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_deepseek_decode_qkv:
+            - args: --m=128 --n=21504 --k=7168
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_llama3_decode_atten_out:
+            - args: --m=128 --n=8192 --k=8192
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_llama3_decode_ffn_down:
+            - args: --m=128 --n=8192 --k=28672
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_llama3_decode_ffn_up:
+            - args: --m=128 --n=57344 --k=8192
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_llama3_decode_qkv:
+            - args: --m=128 --n=24576 --k=8192
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_mixtral_decode_atten_out:
+            - args: --m=128 --n=4096 --k=4096
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_mixtral_decode_ffn_down:
+            - args: --m=128 --n=4096 --k=14336
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_mixtral_decode_ffn_up:
+            - args: --m=128 --n=28672 --k=4096
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_mixtral_decode_qkv:
+            - args: --m=128 --n=12288 --k=4096
+              accel-sim-mem: 64G
+              accel-sim-time: "8:00:00"
+        - gemm_streamk_deepseek_prefill_atten_out:
+            - args: --m=4096 --n=7168 --k=7168
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_deepseek_prefill_ffn_down:
+            - args: --m=4096 --n=7168 --k=18432
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_deepseek_prefill_ffn_up:
+            - args: --m=4096 --n=36864 --k=7168
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_deepseek_prefill_qkv:
+            - args: --m=4096 --n=21504 --k=7168
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_llama3_prefill_atten_out:
+            - args: --m=4096 --n=8192 --k=8192
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_llama3_prefill_ffn_down:
+            - args: --m=4096 --n=8192 --k=28672
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_llama3_prefill_ffn_up:
+            - args: --m=4096 --n=57344 --k=8192
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_llama3_prefill_qkv:
+            - args: --m=4096 --n=24576 --k=8192
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_mixtral_prefill_atten_out:
+            - args: --m=4096 --n=4096 --k=4096
+              accel-sim-mem: 16G
+              accel-sim-time: "10:00:00"
+        - gemm_streamk_mixtral_prefill_ffn_down:
+            - args: --m=4096 --n=4096 --k=14336
+              accel-sim-mem: 16G
+              accel-sim-time: "10:00:00"
+        - gemm_streamk_mixtral_prefill_ffn_up:
+            - args: --m=4096 --n=28672 --k=4096
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        - gemm_streamk_mixtral_prefill_qkv:
+            - args: --m=4096 --n=12288 --k=4096
+              accel-sim-mem: 32G
+              accel-sim-time: "72:00:00"
+        
 
+# {seq length Q, seq length KV, head size, head size V, head number, batch size}
+fused_mha:
+    exec_dir: "$GPUAPPS_ROOT/bin/$CUDA_VERSION/release/"
+    data_dirs: "$GPUAPPS_ROOT/data_dirs/"
+    execs:
+        - fused_mha_4k_4k_56_56_128_1: #ds_prefill
+            - args: --seq_length=4096 --seq_length_kv=4096 --head_size=56 --head_size_v=56 --head_number=128 --batch_size=1 --reference-check=false --iterations=1
+              accel-sim-mem: 32G
+              accel-sim-time: "24:00:00"
+        - fused_mha_1_4k_56_56_128_128: #ds_decode
+            - args: --seq_length=1 --seq_length_kv=4096 --head_size=56 --head_size_v=56 --head_number=128 --batch_size=128 --reference-check=false --iterations=1
+              accel-sim-mem: 8G
+        - fused_mha_4k_4k_128_128_64_1: # llama3-70b prefill
+            - args: --seq_length=4096 --seq_length_kv=4096 --head_size=128 --head_size_v=128 --head_number=64 --batch_size=1 --reference-check=false --iterations=1
+              accel-sim-mem: 32G
+              accel-sim-time: "24:00:00"
+        - fused_mha_1_4k_128_128_64_128: # llama3-70b decode
+            - args: --seq_length=1 --seq_length_kv=4096 --head_size=128 --head_size_v=128 --head_number=64 --batch_size=128 --reference-check=false --iterations=1
+              accel-sim-mem: 8G
+        - fused_mha_4k_4k_128_128_32_1: # mixtral-8x7b prefill  
+            - args: --seq_length=4096 --seq_length_kv=4096 --head_size=128 --head_size_v=128 --head_number=32 --batch_size=1 --reference-check=false --iterations=1
+              accel-sim-mem: 32G
+              accel-sim-time: "24:00:00"
+        - fused_mha_1_4k_128_128_32_128: # mixtral-8x7b decode  
+            - args: --seq_length=1 --seq_length_kv=4096 --head_size=128 --head_size_v=128 --head_number=32 --batch_size=128 --reference-check=false --iterations=1
+              accel-sim-mem: 8G
 ## Not sure how much memory the following apps take - just letting them go with the default
 
 ispass-2009:
@@ -1113,4 +1243,12 @@ l2_bw_128:
     execs:
         - l2_bw_128:
             - args:
+              accel-sim-mem: 1G
+
+nw-rodinia-2.0-ft: 
+    exec_dir: "$GPUAPPS_ROOT/bin/$CUDA_VERSION/release/"
+    data_dirs: "$GPUAPPS_ROOT/data_dirs/"
+    execs:
+        - nw-rodinia-2.0-ft:
+            - args: 128 10 ./data/result_128_10.txt
               accel-sim-mem: 1G

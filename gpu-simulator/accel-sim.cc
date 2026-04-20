@@ -1,5 +1,6 @@
 #include "accel-sim.h"
 #include "accelsim_version.h"
+#include <cstring>
 
 accel_sim_framework::accel_sim_framework(std::string config_file,
                                           std::string trace_file) {
@@ -207,6 +208,13 @@ gpgpu_sim *accel_sim_framework::gpgpu_trace_sim_init_perf_model(
   m_gpgpu_context->the_gpgpusim->g_the_gpu_config->reg_options(
       opp);  // register GPU microrachitecture options
   m_config->reg_options(opp);
+
+  m_gpgpu_context->the_gpgpusim->g_option_parser = opp;
+  for (int i = 0; i < (int)argc - 1; i++)
+    if (strcmp(argv[i], "-config") == 0) {
+      m_gpgpu_context->the_gpgpusim->g_config_file_path = strdup(argv[i + 1]);
+      break;
+    }
 
   option_parser_cmdline(opp, argc, argv);  // parse configuration options
   fprintf(stdout, "GPGPU-Sim: Configuration options:\n\n");

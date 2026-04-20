@@ -47,6 +47,12 @@ parser.add_option(
     help="Sets a hard limit to the number of traced kernels",
 )
 parser.add_option(
+    "--dynamic_kernel_range",
+    dest="dynamic_kernel_range",
+    default=None,
+    help='Explicit DYNAMIC_KERNEL_RANGE value (e.g., "4", "4-4", "5-8@.*attention.*"). Overrides --limit_kernel_number.',
+)
+parser.add_option(
     "-t",
     "--terminate_upon_limit",
     dest="terminate_upon_limit",
@@ -129,7 +135,9 @@ for bench in benchmarks:
         if args == None:
             args = ""
         exec_path = common.file_option_test(os.path.join(edir, exe), "", this_directory)
+        cuda_tools_dir = os.path.join(this_directory, "cuda_tools")
         sh_contents = "set -e\n"
+        sh_contents += 'export PATH="' + cuda_tools_dir + ':$PATH"\n'
 
         if options.terminate_upon_limit:
             sh_contents += "export TERMINATE_UPON_LIMIT=1; "
@@ -139,15 +147,19 @@ for bench in benchmarks:
             sh_contents += "export TERMINATE_UPON_LIMIT=0; "
             exec_path = ". " + exec_path
 
-            if options.kernel_number > 0:
-                sh_contents +=  ('\nexport DYNAMIC_KERNEL_RANGE="0-'+str(options.kernel_number)+'"\n')
+            if options.dynamic_kernel_range is not None:
+                sh_contents += ('\nexport DYNAMIC_KERNEL_RANGE="' + str(options.dynamic_kernel_range) + '"\n')
+            elif options.kernel_number > 0:
+                sh_contents += ('\nexport DYNAMIC_KERNEL_RANGE="0-'+str(options.kernel_number)+'"\n')
             else:
-                sh_contents +=  ('\nexport DYNAMIC_KERNEL_RANGE="0-'+str(50)+'"\n')
+                sh_contents += ('\nexport DYNAMIC_KERNEL_RANGE="0-'+str(50)+'"\n')
         else:
-            if options.kernel_number > 0:
-                sh_contents +=  ('\nexport DYNAMIC_KERNEL_RANGE="0-'+str(options.kernel_number)+'"\n')
+            if options.dynamic_kernel_range is not None:
+                sh_contents += ('\nexport DYNAMIC_KERNEL_RANGE="' + str(options.dynamic_kernel_range) + '"\n')
+            elif options.kernel_number > 0:
+                sh_contents += ('\nexport DYNAMIC_KERNEL_RANGE="0-'+str(options.kernel_number)+'"\n')
             else:
-                sh_contents +=  ('\nexport DYNAMIC_KERNEL_RANGE=""\n')
+                sh_contents += ('\nexport DYNAMIC_KERNEL_RANGE=""\n')
 
         # first we generate the traces (.trace and kernelslist files)
         # then, we do post-processing for the traces and generate (.traceg and kernelslist.g files)

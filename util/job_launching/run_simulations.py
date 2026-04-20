@@ -111,6 +111,7 @@ class ConfigurationSpec:
             for argmap in self.command_line_args_list:
                 args = argmap["args"]
                 mem_usage = argmap["accel-sim-mem"]
+                time_usage = argmap["accel-sim-time"]
                 appargs_run_subdir = os.path.join(
                     benchmark.replace("/", "_"), self.benchmark_args_subdirs[args]
                 )
@@ -131,6 +132,7 @@ class ConfigurationSpec:
                     full_exec_dir,
                     build_handle,
                     mem_usage,
+                    time_usage,
                 )
                 self.append_gpgpusim_config(
                     benchmark, this_run_dir, appargs_run_subdir, self.config_file
@@ -298,6 +300,7 @@ class ConfigurationSpec:
         exec_dir,
         gpgpusim_build_handle,
         mem_usage,
+        time_usage,
     ):
         # get the pre-launch sh commands
         prelaunch_filename = full_run_dir + "benchmark_pre_launch_command_line.txt"
@@ -336,6 +339,8 @@ class ConfigurationSpec:
         # If the user specified the memory use that
         if options.job_mem != None:
             mem_usage = options.job_mem
+        if options.job_time != None:
+            time_usage = options.job_time
         # if we are using PTX (GPGPU-Sim) - then just assume 4G
         elif options.trace_dir == "":
             mem_usage = "4G"
@@ -368,7 +373,8 @@ class ConfigurationSpec:
                             "EXEC_NAME":exec_name,
                             "QUEUE_NAME":queue_name,
                             "COMMAND_LINE":txt_args,
-                            "MEM_USAGE": mem_usage
+                            "MEM_USAGE": mem_usage,
+                            "TIME_USAGE": time_usage
                             }
         torque_text = open(this_directory + job_template).read().strip()
         for entry in replacement_dict:

@@ -44,7 +44,9 @@ endif
 
 CXXFLAGS+=-I./trace-driven -I./trace-parser -I$(GPGPUSIM_ROOT)/libcuda -I$(GPGPUSIM_ROOT)/src -I$(CUDA_INSTALL_PATH)/include -I$(BUILD_DIR)
 
-LIBS+=-L$(GPGPUSIM_ROOT)/lib/$(GPGPUSIM_CONFIG)/ -lcudart -lm -lz -lGL -pthread $(BUILD_DIR)/*.o 
+LIBS+=-L$(GPGPUSIM_ROOT)/lib/$(GPGPUSIM_CONFIG)/ -lcudart -lm -lz -lGL -pthread $(BUILD_DIR)/*.o
+# Work around GCC 14+ / glibc < 2.38: linker expects __isoc23_sscanf (C23) which older glibc does not provide
+LDFLAGS+=-Wl,--defsym,__isoc23_sscanf=sscanf 
 
 all: $(BIN_DIR)/accel-sim.out
 
@@ -64,7 +66,7 @@ checkenv: makedirs
 	fi
 
 $(BIN_DIR)/accel-sim.out: trace-driven trace-parser gpgpu-sim makedirs version
-	$(CXX) $(CXXFLAGS) $(LIBS) -o $(BIN_DIR)/accel-sim.out accel-sim.cc main.cc 
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) $(LIBS) -o $(BIN_DIR)/accel-sim.out accel-sim.cc main.cc 
 
 version:
 	echo "const char *g_accelsim_version=\"$(ACCELSIM_BUILD)\";" > $(BUILD_DIR)/accelsim_version.h

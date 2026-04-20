@@ -53,6 +53,24 @@ def get_argfoldername(args):
         return foldername
 
 
+def _match_extra_config_tokens(tokens, defined_xtracfgs):
+    matched_tokens = []
+    idx = 0
+    while idx < len(tokens):
+        match = None
+        # Prefer the longest hyphen-joined config name starting at this token.
+        for end in range(len(tokens), idx, -1):
+            candidate = "-".join(tokens[idx:end])
+            if candidate in defined_xtracfgs:
+                match = candidate
+                idx = end
+                break
+        if match is None:
+            return None
+        matched_tokens.append(match)
+    return matched_tokens
+
+
 # Test to see if the passed config adheres to any defined configs and add it to the configrations to run/collect.
 def get_config(name, defined_baseconfigs, defined_xtracfgs):
     tokens = name.split("-")
@@ -65,7 +83,15 @@ def get_config(name, defined_baseconfigs, defined_xtracfgs):
         return None
     else:
         config = (name, "", defined_baseconfigs[tokens[0]])
-    for token in tokens[1:]:
+    matched_tokens = _match_extra_config_tokens(tokens[1:], defined_xtracfgs)
+    if matched_tokens is None:
+        print(
+            "Could not resolve extra config tokens in {0} using defined xtraconfigs {1}".format(
+                name, defined_xtracfgs
+            )
+        )
+        return None
+    for token in matched_tokens:
         if token not in defined_xtracfgs:
             print(
                 "Could not find {0} in defined xtraconfigs {1}".format(
@@ -110,6 +136,8 @@ def parse_app_definition_yaml(def_yml, apps):
                 args = runparms["args"]
                 if "accel-sim-mem" not in runparms:
                     runparms["accel-sim-mem"] = "4G"
+                if "accel-sim-time" not in runparms:
+                    runparms["accel-sim-time"] = "8:00:00"
                 apps[suite + ":" + exe_name + ":" + str(count)] = []
                 apps[suite + ":" + exe_name + ":" + str(count)].append(
                     (
@@ -308,6 +336,12 @@ def parse_run_simulations_options():
         help="Memory usgae of the job be sure to specify the units i.e. 4G, 900M, etc..",
     )
     parser.add_option(
+        "--job_time",
+        dest="job_time",
+        default=None,
+        help="Walltime for the job in HH:MM:SS format (for example 8:00:00).",
+    )
+    parser.add_option(
         "-l",
         "--launcher",
         dest="launcher",
@@ -346,6 +380,8 @@ def parse_run_simulations_options():
     options.launch_name = options.launch_name.strip()
     if options.job_mem != None:
         options.job_mem = options.job_mem.strip()
+    if options.job_time != None:
+        options.job_time = options.job_time.strip()
     return (options, args)
 
 

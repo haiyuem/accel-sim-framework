@@ -270,8 +270,21 @@ class ProcMan:
             os.path.join(os.path.dirname(self.pickleFile), "*pickle*")
         ):
             if pickleFile != self.pickleFile:
-                otherProcMan = pickle.load(open(pickleFile, "rb"))
-                othersCores += len(otherProcMan.activeJobs)
+                try:
+                    with open(pickleFile, "rb") as f:
+                        otherProcMan = pickle.load(f)
+                    # Only count if the other procman's ticking process is actually running
+                    if otherProcMan.tickingProcess is not None:
+                        try:
+                            # Check if the process is still alive
+                            psutil.Process(otherProcMan.tickingProcess)
+                            othersCores += len(otherProcMan.activeJobs)
+                        except (psutil.NoSuchProcess, psutil.AccessDenied):
+                            # Process is dead, don't count its jobs
+                            pass
+                except (EOFError, pickle.UnpicklingError, FileNotFoundError):
+                    # Skip corrupted, empty, or deleted pickle files
+                    pass
         return othersCores
 
     def getState(self):
@@ -425,6 +438,33 @@ def selfTest():
     shutil.rmtree(testPath)
 
 
+def _clean_stale_pickle_files():
+    """Delete pickle state files whose owning ProcMan process (PID in filename) is no longer running."""
+    if not os.path.isdir(procManStateFolder):
+        print("ProcMan state folder does not exist: {0}".format(procManStateFolder))
+        return
+    # Files written by ticking ProcMans are named *pickle*.tmp.<pid> or *pickle*.<pid>
+    pattern = re.compile(r"\.(\d+)$")
+    deleted = []
+    for path in glob.glob(os.path.join(procManStateFolder, "*pickle*")):
+        name = os.path.basename(path)
+        match = pattern.search(name)
+        if not match:
+            continue
+        pid = int(match.group(1))
+        try:
+            psutil.Process(pid)
+        except psutil.NoSuchProcess:
+            try:
+                os.remove(path)
+                deleted.append(path)
+                print("Deleted stale ProcMan state (dead pid {0}): {1}".format(pid, path))
+            except OSError as e:
+                print("Could not delete {0}: {1}".format(path, e))
+    if not deleted:
+        print("No stale ProcMan state files found.")
+
+
 def main():
     parser = OptionParser()
     parser.add_option(
@@ -486,7 +526,17 @@ def main():
         type=int,
         help="Return the path of the pickle file for the ProcMan managing this job.",
     )
+    parser.add_option(
+        "--clean-stale",
+        dest="cleanStale",
+        action="store_true",
+        help="Find and delete pickle state files from ProcMan processes that are no longer running.",
+    )
     (options, args) = parser.parse_args()
+
+    if options.cleanStale:
+        _clean_stale_pickle_files()
+        return
 
     if options.selfTest:
         selfTest()

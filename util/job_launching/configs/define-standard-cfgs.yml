@@ -188,6 +188,25 @@ Accelwattch_PTX_SIM:
     \n-accelwattch_xml_file accelwattch_ptx_sim.xml"
 
 
+#### config overlap
+##decode halfipc
+l2clock_100-dramclock_310:
+    extra_params: "-gpgpu_clock_domains 1410:1410:100:310"
+l2clock_100-icntclock_240:
+    extra_params: "-gpgpu_clock_domains 1410:240:100:1512"
+icntclock_240-dramclock_310:
+    extra_params: "-gpgpu_clock_domains 1410:240:1410:310"
+
+##prefill halfipc
+l2clock_300-dramclock_240:
+    extra_params: "-gpgpu_clock_domains 1410:1410:300:240"
+l2clock_300-icntclock_706:
+    extra_params: "-gpgpu_clock_domains 1410:706:300:1512"
+icntclock_706-dramclock_240:
+    extra_params: "-gpgpu_clock_domains 1410:706:1410:240"
+l2assoc_4-l2set_60:
+    extra_params: "-gpgpu_cache:dl2 S:60:128:4,L:B:m:L:X,A:192:4,32:0,32"
+
 
 ############## individual cuts configs from start ##############
 # "l2clock": ["1410", "1234", "1058", "882", "706", "530", "354", "178"],
@@ -356,19 +375,19 @@ l2toicnt_8:
 l2_data_port_width_32:
     extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,32"
 l2_data_port_width_28:
-    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,28:0,28"
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,28"
 l2_data_port_width_24:
-    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,24:0,24"
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,24"
 l2_data_port_width_20:
-    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,20:0,20"
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,20"
 l2_data_port_width_16:
-    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,16:0,16"
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,16"
 l2_data_port_width_12:
-    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,12:0,12"
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,12"
 l2_data_port_width_8:
-    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,8:0,8"
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,8"
 l2_data_port_width_4:
-    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,4:0,4"
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,4"
 
 # "l2_rop_latency": ["200", "400", "600", "800", "1000", "1200", "1400", "1600"],
 l2_rop_latency_200:
@@ -554,6 +573,11 @@ dram_latency_1520:
 
 
 ############## individual cuts configs during execution ##############
+# record delta cycles for every X insn
+dynparams:
+    extra_params: "-gpgpu_cycles_at_insn 1000000 -gpgpu_insn_at_cycle 1000 -config_reload_at_insn 300000000 -gpgpu_max_insn 1000000000"
+
+
 # "l2clock": ["1410", "1234", "1058", "882", "706", "530", "354", "178"],
 l2clock_1410_dyn:
     extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:1512\""
@@ -720,19 +744,19 @@ l2toicnt_8_dyn:
 l2_data_port_width_32_dyn:
     extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,32\""
 l2_data_port_width_28_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,28:0,28\""
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,28\""
 l2_data_port_width_24_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,24:0,24\""
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,24\""
 l2_data_port_width_20_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,20:0,20\""
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,20\""
 l2_data_port_width_16_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,16:0,16\""
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,16\""
 l2_data_port_width_12_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,12:0,12\""
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,12\""
 l2_data_port_width_8_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,8:0,8\""
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,8\""
 l2_data_port_width_4_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,4:0,4\""
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,4\""
 
 # "l2_rop_latency": ["200", "400", "600", "800", "1000", "1200", "1400", "1600"],
 l2_rop_latency_200_dyn:
@@ -809,21 +833,21 @@ l2set_16_dyn:
 
 # "l2assoc": ["16", "14", "12", "10", "8", "6", "4", "2"],
 l2assoc_16_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/16\""
 l2assoc_14_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:14,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/14\""
 l2assoc_12_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:12,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/12\""
 l2assoc_10_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:10,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/10\""
 l2assoc_8_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:8,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/8\""
 l2assoc_6_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:6,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/6\""
 l2assoc_4_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:4,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/4\""
 l2assoc_2_dyn:
-    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:2,L:B:m:L:X,A:192:4,32:0,32\""
+    extra_params: "-reload_config \"gpgpu_l2_valid_way_mask\/2\""
 
 # "n_mem": ["5", "10", "15", "20", "25", "30", "35", "40"],
 n_mem_40_dyn:
@@ -844,7 +868,7 @@ n_mem_5_dyn:
     extra_params: "-reload_config \"gpgpu_n_mem\/5\""
 
 # "dram_buswidth": ["16", "14", "12", "10", "8", "6", "4", "2"],
-dram_buswidth_16: 
+dram_buswidth_16_dyn: 
     extra_params: "-reload_config \"gpgpu_dram_buswidth\/16\""
 dram_buswidth_14_dyn:
     extra_params: "-reload_config \"gpgpu_dram_buswidth\/14\""
@@ -914,3 +938,611 @@ dram_latency_1330_dyn:
     extra_params: "-reload_config \"dram_latency\/1330\""
 dram_latency_1520_dyn:
     extra_params: "-reload_config \"dram_latency\/1520\""
+
+############## auto-added configs for current SM80_A100 env.sh ##############
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2clock)
+l2clock_300:
+    extra_params: "-gpgpu_clock_domains 1410:1410:300:1512"
+l2clock_280:
+    extra_params: "-gpgpu_clock_domains 1410:1410:280:1512"
+l2clock_260:
+    extra_params: "-gpgpu_clock_domains 1410:1410:260:1512"
+l2clock_240:
+    extra_params: "-gpgpu_clock_domains 1410:1410:240:1512"
+l2clock_220:
+    extra_params: "-gpgpu_clock_domains 1410:1410:220:1512"
+l2clock_200:
+    extra_params: "-gpgpu_clock_domains 1410:1410:200:1512"
+l2clock_300_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:300:1512\""
+l2clock_280_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:280:1512\""
+l2clock_260_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:260:1512\""
+l2clock_240_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:240:1512\""
+l2clock_220_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:220:1512\""
+l2clock_200_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:200:1512\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (icntclock)
+icntclock_700:
+    extra_params: "-gpgpu_clock_domains 1410:700:1410:1512"
+icntclock_680:
+    extra_params: "-gpgpu_clock_domains 1410:680:1410:1512"
+icntclock_660:
+    extra_params: "-gpgpu_clock_domains 1410:660:1410:1512"
+icntclock_640:
+    extra_params: "-gpgpu_clock_domains 1410:640:1410:1512"
+icntclock_620:
+    extra_params: "-gpgpu_clock_domains 1410:620:1410:1512"
+icntclock_600:
+    extra_params: "-gpgpu_clock_domains 1410:600:1410:1512"
+icntclock_680_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:680:1410:1512\""
+icntclock_660_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:660:1410:1512\""
+icntclock_640_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:640:1410:1512\""
+icntclock_620_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:620:1410:1512\""
+icntclock_600_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:600:1410:1512\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2_data_port_width)
+l2_data_port_width_7:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,7"
+l2_data_port_width_6:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,6"
+l2_data_port_width_5:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,32:0,5"
+l2_data_port_width_7_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,7\""
+l2_data_port_width_6_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,6\""
+l2_data_port_width_5_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,32:0,5\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2_rop_latency)
+# "5000", "5200", "5400", "5600", "5800", "6000", "6200", "6400"
+l2_rop_latency_5000:
+    extra_params: "-gpgpu_l2_rop_latency 5000"
+l2_rop_latency_5200:
+    extra_params: "-gpgpu_l2_rop_latency 5200"
+l2_rop_latency_5400:
+    extra_params: "-gpgpu_l2_rop_latency 5400"
+l2_rop_latency_5600:
+    extra_params: "-gpgpu_l2_rop_latency 5600"
+l2_rop_latency_5800:
+    extra_params: "-gpgpu_l2_rop_latency 5800"
+l2_rop_latency_6000:
+    extra_params: "-gpgpu_l2_rop_latency 6000"
+l2_rop_latency_6200:
+    extra_params: "-gpgpu_l2_rop_latency 6200"
+l2_rop_latency_6400:
+    extra_params: "-gpgpu_l2_rop_latency 6400"
+l2_rop_latency_5000_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/5000\""
+l2_rop_latency_5200_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/5200\""
+l2_rop_latency_5400_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/5400\""
+l2_rop_latency_5600_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/5600\""
+l2_rop_latency_5800_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/5800\""
+l2_rop_latency_6000_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/6000\""
+l2_rop_latency_6200_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/6200\""
+l2_rop_latency_6400_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/6400\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (dramclock)
+dramclock_360:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:360"
+dramclock_350:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:350"
+dramclock_340:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:340"
+dramclock_330:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:330"
+dramclock_320:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:320"
+dramclock_310:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:310"
+dramclock_300:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:300"
+dramclock_290:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:290"
+dramclock_280:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:280"
+dramclock_270:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:270"
+dramclock_260:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:260"
+dramclock_250:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:250"
+dramclock_240:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:240"
+dramclock_230:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:230"
+dramclock_220:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:220"
+dramclock_210:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:210"
+dramclock_200:
+    extra_params: "-gpgpu_clock_domains 1410:1410:1410:200"
+dramclock_360_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:360\""
+dramclock_350_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:350\""
+dramclock_340_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:340\""
+dramclock_330_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:330\""
+dramclock_320_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:320\""
+dramclock_310_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:310\""
+dramclock_300_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:300\""
+dramclock_290_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:290\""
+dramclock_280_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:280\""
+dramclock_270_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:270\""
+dramclock_260_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:260\""
+dramclock_250_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:250\""
+dramclock_240_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:240\""
+dramclock_230_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:230\""
+dramclock_220_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:220\""
+dramclock_210_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:210\""
+dramclock_200_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:1410:200\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2set)
+# "l2set": ["128", "112", "96", "80", "76", "72", "68", "64", "60", "56", "52", "48", "44", "40", "36", "32", "16", "1"],
+l2set_76:
+    extra_params: "-gpgpu_cache:dl2 S:76:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_72:
+    extra_params: "-gpgpu_cache:dl2 S:72:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_68:
+    extra_params: "-gpgpu_cache:dl2 S:68:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_64:
+    extra_params: "-gpgpu_cache:dl2 S:64:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_60:
+    extra_params: "-gpgpu_cache:dl2 S:60:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_56:
+    extra_params: "-gpgpu_cache:dl2 S:56:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_52:
+    extra_params: "-gpgpu_cache:dl2 S:52:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_48:
+    extra_params: "-gpgpu_cache:dl2 S:48:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_44:
+    extra_params: "-gpgpu_cache:dl2 S:44:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_40:
+    extra_params: "-gpgpu_cache:dl2 S:40:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_36:
+    extra_params: "-gpgpu_cache:dl2 S:36:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_76_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:76:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_72_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:72:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_68_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:68:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_64_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:64:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_60_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:60:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_56_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:56:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_52_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:52:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_48_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:48:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_44_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:44:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_40_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:40:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_36_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:36:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2assoc)
+# "l2assoc": ["16", "14", "12", "10", "8", "7", "6", "5", "4", "3", "2", "1"],
+l2assoc_7:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:7,L:B:m:L:X,A:192:4,32:0,32"
+l2assoc_5:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:5,L:B:m:L:X,A:192:4,32:0,32"
+l2assoc_3:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:3,L:B:m:L:X,A:192:4,32:0,32"
+l2assoc_1:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:1,L:B:m:L:X,A:192:4,32:0,32"
+l2assoc_7_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:7,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_5_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:5,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_3_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:3,L:B:m:L:X,A:192:4,32:0,32\""
+l2assoc_1_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:1,L:B:m:L:X,A:192:4,32:0,32\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (dram_buswidth)
+dram_buswidth_3:
+    extra_params: "-gpgpu_dram_buswidth 3"
+dram_buswidth_1:
+    extra_params: "-gpgpu_dram_buswidth 1"
+dram_buswidth_3_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/3\""
+dram_buswidth_1_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_buswidth\/1\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (dram_sched_queue)
+dram_sched_queue_7:
+    extra_params: "-gpgpu_frfcfs_dram_sched_queue_size 7"
+dram_sched_queue_6:
+    extra_params: "-gpgpu_frfcfs_dram_sched_queue_size 6"
+dram_sched_queue_5:
+    extra_params: "-gpgpu_frfcfs_dram_sched_queue_size 5"
+dram_sched_queue_4:
+    extra_params: "-gpgpu_frfcfs_dram_sched_queue_size 4"
+dram_sched_queue_3:
+    extra_params: "-gpgpu_frfcfs_dram_sched_queue_size 3"
+dram_sched_queue_2:
+    extra_params: "-gpgpu_frfcfs_dram_sched_queue_size 2"
+dram_sched_queue_1:
+    extra_params: "-gpgpu_frfcfs_dram_sched_queue_size 1"
+dram_sched_queue_7_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/7\""
+dram_sched_queue_6_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/6\""
+dram_sched_queue_5_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/5\""
+dram_sched_queue_4_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/4\""
+dram_sched_queue_3_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/3\""
+dram_sched_queue_2_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/2\""
+dram_sched_queue_1_dyn:
+    extra_params: "-reload_config \"gpgpu_frfcfs_dram_sched_queue_size\/1\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (dram_return_queue)
+dram_return_queue_16:
+    extra_params: "-gpgpu_dram_return_queue_size 16"
+dram_return_queue_12:
+    extra_params: "-gpgpu_dram_return_queue_size 12"
+dram_return_queue_8:
+    extra_params: "-gpgpu_dram_return_queue_size 8"
+dram_return_queue_4:
+    extra_params: "-gpgpu_dram_return_queue_size 4"
+dram_return_queue_2:
+    extra_params: "-gpgpu_dram_return_queue_size 2"
+dram_return_queue_16_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/16\""
+dram_return_queue_12_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/12\""
+dram_return_queue_8_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/8\""
+dram_return_queue_4_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/4\""
+dram_return_queue_2_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/2\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (dram_latency)
+# "2000", "2200", "2400", "2600", "2800", "3000"
+dram_latency_2000:
+    extra_params: "-dram_latency 2000"
+dram_latency_2200:
+    extra_params: "-dram_latency 2200"
+dram_latency_2400:
+    extra_params: "-dram_latency 2400"
+dram_latency_2600:
+    extra_params: "-dram_latency 2600"
+dram_latency_2800:
+    extra_params: "-dram_latency 2800"
+dram_latency_3000:
+    extra_params: "-dram_latency 3000"
+dram_latency_3200:
+    extra_params: "-dram_latency 3200"
+dram_latency_2000_dyn:
+    extra_params: "-reload_config \"dram_latency\/2000\""
+dram_latency_2200_dyn:
+    extra_params: "-reload_config \"dram_latency\/2200\""
+dram_latency_2400_dyn:
+    extra_params: "-reload_config \"dram_latency\/2400\""
+dram_latency_2600_dyn:
+    extra_params: "-reload_config \"dram_latency\/2600\""
+dram_latency_2800_dyn:
+    extra_params: "-reload_config \"dram_latency\/2800\""
+dram_latency_3000_dyn:
+    extra_params: "-reload_config \"dram_latency\/3000\""
+dram_latency_3200_dyn:
+    extra_params: "-reload_config \"dram_latency\/3200\""
+
+# auto-added for current SM80_A100 env.sh
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2clock)
+l2clock_160:
+    extra_params: "-gpgpu_clock_domains 1410:1410:160:1512"
+l2clock_140:
+    extra_params: "-gpgpu_clock_domains 1410:1410:140:1512"
+l2clock_120:
+    extra_params: "-gpgpu_clock_domains 1410:1410:120:1512"
+l2clock_100:
+    extra_params: "-gpgpu_clock_domains 1410:1410:100:1512"
+l2clock_80:
+    extra_params: "-gpgpu_clock_domains 1410:1410:80:1512"
+l2clock_160_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:160:1512\""
+l2clock_140_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:140:1512\""
+l2clock_120_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:120:1512\""
+l2clock_100_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:100:1512\""
+l2clock_80_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:1410:80:1512\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (icntclock)
+icntclock_320:
+    extra_params: "-gpgpu_clock_domains 1410:320:1410:1512"
+icntclock_300:
+    extra_params: "-gpgpu_clock_domains 1410:300:1410:1512"
+icntclock_280:
+    extra_params: "-gpgpu_clock_domains 1410:280:1410:1512"
+icntclock_260:
+    extra_params: "-gpgpu_clock_domains 1410:260:1410:1512"
+icntclock_240:
+    extra_params: "-gpgpu_clock_domains 1410:240:1410:1512"
+icntclock_220:
+    extra_params: "-gpgpu_clock_domains 1410:220:1410:1512"
+icntclock_200:
+    extra_params: "-gpgpu_clock_domains 1410:200:1410:1512"
+icntclock_320_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:320:1410:1512\""
+icntclock_300_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:300:1410:1512\""
+icntclock_280_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:280:1410:1512\""
+icntclock_260_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:260:1410:1512\""
+icntclock_240_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:240:1410:1512\""
+icntclock_220_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:220:1410:1512\""
+icntclock_200_dyn:
+    extra_params: "-reload_config \"gpgpu_clock_domains\/1410:200:1410:1512\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2_data_port_width)
+l2_data_port_width_3:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,3:0,3"
+l2_data_port_width_2:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,2:0,2"
+l2_data_port_width_1:
+    extra_params: "-gpgpu_cache:dl2 S:128:128:16,L:B:m:L:X,A:192:4,1:0,1"
+l2_data_port_width_3_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,3:0,3\""
+l2_data_port_width_2_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,2:0,2\""
+l2_data_port_width_1_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:128:128:16,L:B:m:L:X,A:192:4,1:0,1\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2_rop_latency)
+l2_rop_latency_450:
+    extra_params: "-gpgpu_l2_rop_latency 450"
+l2_rop_latency_500:
+    extra_params: "-gpgpu_l2_rop_latency 500"
+l2_rop_latency_550:
+    extra_params: "-gpgpu_l2_rop_latency 550"
+l2_rop_latency_450_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/450\""
+l2_rop_latency_500_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/500\""
+l2_rop_latency_550_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/550\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2set)
+l2set_14:
+    extra_params: "-gpgpu_cache:dl2 S:14:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_12:
+    extra_params: "-gpgpu_cache:dl2 S:12:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_8:
+    extra_params: "-gpgpu_cache:dl2 S:8:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_4:
+    extra_params: "-gpgpu_cache:dl2 S:4:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_2:
+    extra_params: "-gpgpu_cache:dl2 S:2:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_1:
+    extra_params: "-gpgpu_cache:dl2 S:1:128:16,L:B:m:L:X,A:192:4,32:0,32"
+l2set_14_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:14:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_12_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:12:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_8_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:8:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_4_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:4:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_2_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:2:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+l2set_1_dyn:
+    extra_params: "-reload_config \"gpgpu_cache:dl2\/S:1:128:16,L:B:m:L:X,A:192:4,32:0,32\""
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (dram_return_queue)
+dram_return_queue_1:
+    extra_params: "-gpgpu_dram_return_queue_size 1"
+dram_return_queue_1_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_return_queue_size\/1\""
+
+# Added from run_cmds/AccelSim/SM80_A100/env.sh (l2_rop_latency)
+l2_rop_latency_420:
+    extra_params: "-gpgpu_l2_rop_latency 420"
+l2_rop_latency_430:
+    extra_params: "-gpgpu_l2_rop_latency 430"
+l2_rop_latency_440:
+    extra_params: "-gpgpu_l2_rop_latency 440"
+l2_rop_latency_460:
+    extra_params: "-gpgpu_l2_rop_latency 460"
+l2_rop_latency_470:
+    extra_params: "-gpgpu_l2_rop_latency 470"
+l2_rop_latency_480:
+    extra_params: "-gpgpu_l2_rop_latency 480"
+l2_rop_latency_490:
+    extra_params: "-gpgpu_l2_rop_latency 490"
+l2_rop_latency_510:
+    extra_params: "-gpgpu_l2_rop_latency 510"
+l2_rop_latency_520:
+    extra_params: "-gpgpu_l2_rop_latency 520"
+l2_rop_latency_530:
+    extra_params: "-gpgpu_l2_rop_latency 530"
+l2_rop_latency_540:
+    extra_params: "-gpgpu_l2_rop_latency 540"
+l2_rop_latency_560:
+    extra_params: "-gpgpu_l2_rop_latency 560"
+l2_rop_latency_570:
+    extra_params: "-gpgpu_l2_rop_latency 570"
+l2_rop_latency_420_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/420\""
+l2_rop_latency_430_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/430\""
+l2_rop_latency_440_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/440\""
+l2_rop_latency_460_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/460\""
+l2_rop_latency_470_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/470\""
+l2_rop_latency_480_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/480\""
+l2_rop_latency_490_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/490\""
+l2_rop_latency_510_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/510\""
+l2_rop_latency_520_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/520\""
+l2_rop_latency_530_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/530\""
+l2_rop_latency_540_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/540\""
+l2_rop_latency_560_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/560\""
+l2_rop_latency_570_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_rop_latency\/570\""
+
+# "shmemnumbanks": ["32", "28", "24", "20", "16", "12", "8", "4", "7", "6", "5", "3", "2", "1"]
+shmemnumbanks_32:
+    extra_params: "-gpgpu_shmem_num_banks 32"
+shmemnumbanks_28:
+    extra_params: "-gpgpu_shmem_num_banks 28"
+shmemnumbanks_24:
+    extra_params: "-gpgpu_shmem_num_banks 24"
+shmemnumbanks_20:
+    extra_params: "-gpgpu_shmem_num_banks 20"
+shmemnumbanks_16:
+    extra_params: "-gpgpu_shmem_num_banks 16"
+shmemnumbanks_12:
+    extra_params: "-gpgpu_shmem_num_banks 12"
+shmemnumbanks_8:
+    extra_params: "-gpgpu_shmem_num_banks 8"
+shmemnumbanks_4:
+    extra_params: "-gpgpu_shmem_num_banks 4"
+shmemnumbanks_7:
+    extra_params: "-gpgpu_shmem_num_banks 7"
+shmemnumbanks_6:
+    extra_params: "-gpgpu_shmem_num_banks 6"
+shmemnumbanks_5:
+    extra_params: "-gpgpu_shmem_num_banks 5"
+shmemnumbanks_3:
+    extra_params: "-gpgpu_shmem_num_banks 3"
+shmemnumbanks_2:
+    extra_params: "-gpgpu_shmem_num_banks 2"
+shmemnumbanks_1:
+    extra_params: "-gpgpu_shmem_num_banks 1"
+shmemnumbanks_32_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/32\""
+shmemnumbanks_28_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/28\""
+shmemnumbanks_24_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/24\""
+shmemnumbanks_20_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/20\""
+shmemnumbanks_16_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/16\""
+shmemnumbanks_12_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/12\""
+shmemnumbanks_8_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/8\""
+shmemnumbanks_4_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/4\""
+shmemnumbanks_7_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/7\""
+shmemnumbanks_6_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/6\""
+shmemnumbanks_5_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/5\""
+shmemnumbanks_3_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/3\""
+shmemnumbanks_2_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/2\""
+shmemnumbanks_1_dyn:
+    extra_params: "-reload_config \"gpgpu_shmem_num_banks\/1\""
+
+# Added gpgpu_l2_to_icnt_response_period
+l2_resp_period_1:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 1"
+l2_resp_period_2:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 2"
+l2_resp_period_3:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 3"
+l2_resp_period_4:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 4"
+l2_resp_period_5:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 5"
+l2_resp_period_6:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 6"
+l2_resp_period_7:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 7"
+l2_resp_period_8:
+    extra_params: "-gpgpu_l2_to_icnt_response_period 8"
+l2_resp_period_1_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/1\""
+l2_resp_period_2_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/2\""
+l2_resp_period_3_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/3\""
+l2_resp_period_4_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/4\""
+l2_resp_period_5_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/5\""
+l2_resp_period_6_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/6\""
+l2_resp_period_7_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/7\""
+l2_resp_period_8_dyn:
+    extra_params: "-reload_config \"gpgpu_l2_to_icnt_response_period\/8\""
+
+# Add gpgpu_dram_to_l2_response_period
+dram_resp_period_1:
+    extra_params: "-gpgpu_dram_to_l2_response_period 1"
+dram_resp_period_2:
+    extra_params: "-gpgpu_dram_to_l2_response_period 2"
+dram_resp_period_3:
+    extra_params: "-gpgpu_dram_to_l2_response_period 3"
+dram_resp_period_4:
+    extra_params: "-gpgpu_dram_to_l2_response_period 4"
+dram_resp_period_5:
+    extra_params: "-gpgpu_dram_to_l2_response_period 5"
+dram_resp_period_6:
+    extra_params: "-gpgpu_dram_to_l2_response_period 6"
+dram_resp_period_7:
+    extra_params: "-gpgpu_dram_to_l2_response_period 7"
+dram_resp_period_8:
+    extra_params: "-gpgpu_dram_to_l2_response_period 8"
+dram_resp_period_1_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/1\""
+dram_resp_period_2_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/2\""
+dram_resp_period_3_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/3\""
+dram_resp_period_4_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/4\""
+dram_resp_period_5_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/5\""
+dram_resp_period_6_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/6\""
+dram_resp_period_7_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/7\""
+dram_resp_period_8_dyn:
+    extra_params: "-reload_config \"gpgpu_dram_to_l2_response_period\/8\""
+
