@@ -8,7 +8,7 @@
 #   ./submit_gemm_ncu.sh 12 --qos=debug  # submit only index 12
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-CONFIGFILE="${SCRIPT_DIR}/gemm_specs_halfshmem.csv"
+CONFIGFILE="${SCRIPT_DIR}/gemm_specs_unique.csv"
 RESULTS_DIR="${SCRIPT_DIR}/results"
 if [[ ! -f "$CONFIGFILE" ]]; then
   echo "Missing $CONFIGFILE" >&2

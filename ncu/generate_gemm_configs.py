@@ -29,6 +29,7 @@ MIXTRAL_DFF = 14336
 # Decode: query is current-step tokens, KV is cache length.
 # Prefill: query and KV lengths are both prompt/context length.
 M_QUERY_DECODE = 128
+M_QUERY_DECODE_MIXTRAL = 128
 M_KV_DECODE = 4096
 M_QUERY_PREFILL = 4096
 M_KV_PREFILL = 4096
@@ -37,7 +38,9 @@ M_KV_PREFILL = 4096
 def build_specs() -> pd.DataFrame:
     specs: list[dict] = []
 
-    def add_model_specs(model_name: str, d: int, dff: int) -> None:
+    def add_model_specs(
+        model_name: str, d: int, dff: int, m_query_decode: int = M_QUERY_DECODE
+    ) -> None:
         qkv_n = 3 * d
         ffn_up_n = 2 * dff  # SwiGLU combined up/gate width
 
@@ -48,31 +51,15 @@ def build_specs() -> pd.DataFrame:
                     "model": model_name,
                     "phase": "decode",
                     "component": "qkv",
-                    "M": M_QUERY_DECODE,
+                    "M": m_query_decode,
                     "N": qkv_n,
                     "K": d,
                 },
                 {
                     "model": model_name,
                     "phase": "decode",
-                    "component": "atten_qk",
-                    "M": M_QUERY_DECODE,
-                    "N": M_KV_DECODE,
-                    "K": d,
-                },
-                {
-                    "model": model_name,
-                    "phase": "decode",
-                    "component": "atten_av",
-                    "M": M_QUERY_DECODE,
-                    "N": d,
-                    "K": M_KV_DECODE,
-                },
-                {
-                    "model": model_name,
-                    "phase": "decode",
                     "component": "atten_out",
-                    "M": M_QUERY_DECODE,
+                    "M": m_query_decode,
                     "N": d,
                     "K": d,
                 },
@@ -80,7 +67,7 @@ def build_specs() -> pd.DataFrame:
                     "model": model_name,
                     "phase": "decode",
                     "component": "ffn_up",
-                    "M": M_QUERY_DECODE,
+                    "M": m_query_decode,
                     "N": ffn_up_n,
                     "K": d,
                 },
@@ -88,7 +75,7 @@ def build_specs() -> pd.DataFrame:
                     "model": model_name,
                     "phase": "decode",
                     "component": "ffn_down",
-                    "M": M_QUERY_DECODE,
+                    "M": m_query_decode,
                     "N": d,
                     "K": dff,
                 },
@@ -105,22 +92,6 @@ def build_specs() -> pd.DataFrame:
                     "M": M_QUERY_PREFILL,
                     "N": qkv_n,
                     "K": d,
-                },
-                {
-                    "model": model_name,
-                    "phase": "prefill",
-                    "component": "atten_qk",
-                    "M": M_QUERY_PREFILL,
-                    "N": M_KV_PREFILL,
-                    "K": d,
-                },
-                {
-                    "model": model_name,
-                    "phase": "prefill",
-                    "component": "atten_av",
-                    "M": M_QUERY_PREFILL,
-                    "N": d,
-                    "K": M_KV_PREFILL,
                 },
                 {
                     "model": model_name,
@@ -151,7 +122,9 @@ def build_specs() -> pd.DataFrame:
 
     add_model_specs("DeepSeek-V3", DEEPSEEK_D, DEEPSEEK_DFF)
     add_model_specs("Llama-3-70B", LLAMA_D, LLAMA_DFF)
-    add_model_specs("Mixtral-8x7B", MIXTRAL_D, MIXTRAL_DFF)
+    add_model_specs(
+        "Mixtral-8x7B", MIXTRAL_D, MIXTRAL_DFF, m_query_decode=M_QUERY_DECODE_MIXTRAL
+    )
 
     return pd.DataFrame(specs)
 
